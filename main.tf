@@ -39,12 +39,14 @@ resource "aws_internet_gateway" "liz_igw" {
   
 }
 
-resource "aws_network_interface" "function" {
-  subnet_id = "${aws_subnet.liz-k8s-subnet.id}"
-  private_ips = ["10.20.1.16"]
 
-  tags = {
-    Name = "liz_PNI"
-  }
+resource "aws_route" "Liz-route"{
+  route_table_id = aws_vpc.liz-dev-vpc.main_route_table_id
   
+  destination_cidr_block = "0.0.0.0/0"
+  
+  gateway_id = "${aws_internet_gateway.liz_igw.id}"
 }
+
+
+
